@@ -9,6 +9,9 @@ app.use('/',require('./routes/index.js'));
 app.set('view engine','ejs');
 app.set('views','./views');
 
+//using static files
+app.use(express.static('./assets'));
+
 app.listen(port,function(err)
 {
     if(err)
