@@ -1,6 +1,18 @@
 const express = require('express');
 const port = 8000;
 const app = express();
+const sassMiddleware = require('node-sass-middleware');
+
+app.use(sassMiddleware(
+    {
+        src:'./assets/scss',
+        dest:'./assets/css',
+        debug:true,
+        outputStyle:"compressed",
+        prefix:'/css/',
+    }
+)
+);
 
 //using layouts
 var expressLayouts = require('express-ejs-layouts');
@@ -21,8 +33,6 @@ app.use(express.static('./assets'));
 
 //connecting to database
 const db = require('./config/mongoose');
-
-
 
 app.listen(port,function(err)
 {
