@@ -5,6 +5,10 @@ const app = express();
 //using router
 app.use('/',require('./routes/index.js'));
 
+//setting template engine
+app.set('view engine','ejs');
+app.set('views','./views');
+
 app.listen(port,function(err)
 {
     if(err)
