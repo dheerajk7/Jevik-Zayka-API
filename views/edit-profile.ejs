@@ -1,0 +1,16 @@
+<form action="/users/update" method="POST">
+<label for="email">Email :</label>
+<br>
+<input type="email" value="<%= locals.user_profile.email %>" name="email" id="email">
+<br>
+<label for="name">Name :</label>
+<br>
+<input type="text" value="<%= locals.user_profile.name %>" name="name" id="name">
+<br>
+<label for="phone">Phone :</label>
+<br>
+<input type="text" value="<%= locals.user_profile.phone%>" name="phone" id="phone">
+<br>
+<input type="submit" value="Update">
+<br>
+</form>
