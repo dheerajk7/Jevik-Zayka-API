@@ -7,6 +7,31 @@
     {
         color: #133352;;
     }
+
+    .btn
+    {
+        background-image:linear-gradient(to right, #eefb09 , #f9b24a, #feab36);
+        width: 80%;
+        border-radius: 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: navy;
+    }
+}
+
+#reset-button
+{
+    text-align: center;
+    padding: 1%;
+    a
+    {
+        width: 60%;
+        font-size: 1rem;
+    }
+    a:hover
+    {
+        color: #ffffff;
+    }
 }
 
 .row
@@ -16,8 +41,9 @@
 
 .sign-in-form
 {
-    background: #24a74470;
+    background: #0101017d;
     border-radius: 20px;
+    padding-bottom: 1.5%;
 }
 
 input

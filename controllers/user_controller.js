@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const path = require('path');
+const fs = require('fs');
 
 module.exports.creatUser = async function(request,response)
 {
@@ -42,12 +44,24 @@ module.exports.creatUser = async function(request,response)
 
 module.exports.signIn = function(request,response)
 {
-    return response.render('sign-in');
+    if(request.isAuthenticated())
+    {
+        return response.redirect('/users/profile');
+    }
+    return response.render('sign-in',{
+        title:'Sign In | JAIVIK JAAYAKA',
+    });
 }
 
 module.exports.signUp = function(request,response)
 {
-    return response.render('sign-up');
+    if(request.isAuthenticated())
+    {
+        return response.redirect('/users/profile');
+    }
+    return response.render('sign-up',{
+        title:'Sign Up | JAIVIK JAAYAKA',
+    });
 }
 
 module.exports.createSession = function(request,response)
@@ -65,7 +79,7 @@ module.exports.profile = async function(request,response)
 {
     try
     {
-        let user = await User.findById(request.params.id);
+        let user = await User.findById(request.user.id);
         return response.render('profile',{
             title:'Profile | JAIVIK JAAYAKA',
             user_profile:user,
@@ -82,7 +96,7 @@ module.exports.edit = async function(request,response)
 {
     try
     {
-        let user = await User.findById(request.params.id);
+        let user = await User.findById(request.user.id);
         return response.render('edit-profile',{
             title:'Edit Profile | JAIVIK JAAYAKA',
             user_profile:user,
@@ -100,21 +114,36 @@ module.exports.update = async function(request,response)
     try
     {
         let user = await User.findByIdAndUpdate(request.user.id).populate();
-        let userExist = await User.findOne({email:request.body.email.toLowerCase()});
+        let userExist = await User.findOne({email:request.user.email.toLowerCase()});
         if(userExist && userExist.id != request.user.id)
         {
             console.log('Email Exist');
             return response.redirect('back');
         }
-        user.name = request.body.name;
-        user.phone = request.body.phone;
-        user.email = request.body.email.toLowerCase();
-        user.save();
-        return response.redirect('/users/profile/'+ request.user.id);
+
+        User.uploadAvatar(request,response,function(err)
+            {
+                if(err){console.log('Error in multer')};
+                user.name = request.body.name;
+                user.phone = request.body.phone;
+                user.address = request.body.address;
+                user.city = request.body.city;
+                user.pincode = request.body.pincode;
+                if(request.file)
+                {
+                    if(user.avatar)
+                    {
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
+                    user.avatar = User.avatarPath + '/' + request.file.filename;
+                }
+                user.save();
+                return response.redirect('/users/profile');
+            });
     }
     catch(err)
     {
-        console.log('Error in updating user profile');
+        console.log('Error in updating user profile',err);
         return;
     }
 }

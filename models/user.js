@@ -22,10 +22,6 @@ const userSchema = new mongoose.Schema(
             type:String,
             required:true,
         },
-        avatar:
-        {
-            type:String,
-        },
         phone:
         {
             type:String,
@@ -36,7 +32,23 @@ const userSchema = new mongoose.Schema(
         {
             type:Boolean,
             required:true,
-        }
+        },
+        address:
+        {
+            type:String,
+        },
+        city:
+        {
+            type:String,
+        },
+        pincode:
+        {
+            type:String,
+        },
+        avatar:
+        {
+            type:String,
+        },
     },{
         timestamps:true,
     }

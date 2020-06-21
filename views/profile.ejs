@@ -1,5 +1,9 @@
 
-<a href="users/edit-profile/<%= locals.user.id %>">Edit Profile</a>
+<a href="users/edit-profile">Edit Profile</a>
+<img src="<%= user_profile.avatar %>" alt="<%= user_profile.name %>" height="200px" width="200px">
 <h1><%=locals.user_profile.name%></h1>
 <h2><%=locals.user_profile.email%></h2>
 <h3><%=locals.user_profile.phone%></h3>
+<h3><%=locals.user_profile.address%></h3>
+<h3><%=locals.user_profile.city%></h3>
+<h3><%=locals.user_profile.pincode%></h3>

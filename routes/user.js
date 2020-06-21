@@ -11,12 +11,12 @@ router.post('/create-user',userController.creatUser);
 router.post('/create-session',passport.authenticate(
     'local',
     {
-        failureRedirect:'/users/signin',
+        failureRedirect:'/users/sign-in',
     }
 ),userController.createSession);  
 router.get('/sign-out',passport.checkAuthentication,userController.signOut);
-router.get('/profile/:id',passport.checkAuthentication,userController.profile);
-router.get('/edit-profile/:id',passport.checkAuthentication,userController.edit);
+router.get('/profile',passport.checkAuthentication,userController.profile);
+router.get('/edit-profile',passport.checkAuthentication,userController.edit);
 router.post('/update',passport.checkAuthentication,userController.update);
 
 module.exports = router;

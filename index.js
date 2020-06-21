@@ -1,5 +1,5 @@
 const express = require('express');
-const port = 8000;
+const port = 5100;
 const app = express();
 const sassMiddleware = require('node-sass-middleware');
 //connecting to database
@@ -15,8 +15,6 @@ app.use(sassMiddleware(
     }
 )
 );
-
-
 app.use(express.urlencoded());
 
 //using layouts
@@ -28,7 +26,8 @@ app.set('layout extractScripts', true);
 //setting template engine
 app.set('view engine','ejs');
 app.set('views','./views');
-
+//make the upload path available to the browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
 
 //used for session cookie
 const session = require('express-session');

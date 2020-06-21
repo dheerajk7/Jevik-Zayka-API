@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="css/_header.css">
-<nav style="display: none;" class="navbar navbar-expand-md navbar-dark navbar-fixed-top bg-dark navbar-container">
+<nav class="navbar navbar-expand-md navbar-dark navbar-fixed-top navbar-container">
   <a class="navbar-brand" href="/" id="main-heading">JAIVIK JAAYAKA</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,6 +9,18 @@
       <!-- <li class="nav-item active">
         <a class="nav-link" href="https://getbootstrap.com/docs/4.0/examples/navbars/#">Home <span class="sr-only">(current)</span></a>
       </li> -->
+      <% if(locals.user) { %>
+        <% if(locals.user.isAdmin) { %> 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle nav-item-text" href="http://example.com/" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown04">
+              <a class="dropdown-item" href="/product/addProduct">Add Product</a>
+              <a class="dropdown-item" href="/product/all-product">All Product</a>
+              <a class="dropdown-item" href="/product/hidden-product">Hidden Product</a>
+            </div>
+          </li>
+        <% } %> 
+      <% } %>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle nav-item-text" href="http://example.com/" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category</a>
         <div class="dropdown-menu" aria-labelledby="dropdown04">
@@ -22,9 +33,12 @@
       <input class="form-control col-sm-12" type="text" placeholder="Search">
     </form>
     <ul class="navbar-nav md-float-right">
-      <% if(locals.user) { %> 
+      <% if(locals.user) { %>
+        <% if(locals.user.is_admin) { %> 
+          
+        <% } %> 
         <li class="nav-item active">
-          <a class="nav-link nav-item-text" href="/users/profile/<%=user._id%>">Profile <span class="sr-only">(current)</span></a>
+          <a class="nav-link nav-item-text" href="/users/profile">Profile <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
           <a class="nav-link nav-item-text" href="/users/sign-out">Sign Out <span class="sr-only">(current)</span></a>
