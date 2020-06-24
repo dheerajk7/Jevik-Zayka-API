@@ -120,7 +120,6 @@ module.exports.update = async function(request,response)
             console.log('Email Exist');
             return response.redirect('back');
         }
-
         User.uploadAvatar(request,response,function(err)
             {
                 if(err){console.log('Error in multer')};
