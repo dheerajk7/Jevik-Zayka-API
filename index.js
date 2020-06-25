@@ -1,5 +1,5 @@
 const express = require('express');
-const port = 5100;
+const port = 8000;
 const app = express();
 const sassMiddleware = require('node-sass-middleware');
 //connecting to database
@@ -33,6 +33,7 @@ app.use('/uploads',express.static(__dirname + '/uploads'));
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
 //mongo store for storing session
 const MongoStore = require('connect-mongo')(session);
 

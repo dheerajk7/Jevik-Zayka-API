@@ -9,5 +9,6 @@ router.get('/',homeController.home);
 router.use('/users',require('./user'));
 router.use('/reset-password', require('./reset-password'));
 router.use('/product',require('./product'));
+router.use('/api',require('./api/index'));
 
 module.exports = router;
