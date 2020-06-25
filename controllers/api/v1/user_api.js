@@ -4,7 +4,47 @@ const jwt = require('jsonwebtoken');
 
 module.exports.createUser = async function(request,response)
 {
-   
+    try
+    {
+        let requestEmail = request.body.email.toLowerCase();
+        if(request.body.password != request.body.confirm_password)
+        {
+            return response.status(422).json({
+                message:'Password not matched',
+            });
+        }
+        let userByEmail = await User.findOne({email:requestEmail});
+        let userByPhone = await User.findOne({phone:request.body.phone});
+        if(!userByEmail && !userByPhone)
+        {
+            user =await  User.create(
+                {
+                    email:requestEmail,
+                    password:request.body.password,
+                    name:request.body.name,
+                    phone:request.body.phone,
+                    isAdmin:false,
+                }
+            );
+
+            return response.status(200).json({
+                message:'User Created Successfully',
+            })
+        }
+        else
+        {
+            return response.status(422).json({
+                message:'User Exist',
+            });
+        }
+    }
+    catch(err)
+    {
+        console.log(err);
+        return response.status(500).json({
+            message:'Internal Server Error',
+        });
+    }
 }
 
 module.exports.createSession = async function(request,response)
