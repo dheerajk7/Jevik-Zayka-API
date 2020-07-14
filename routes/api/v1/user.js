@@ -7,5 +7,6 @@ const passport = require('passport');
 router.post('/create-session',userApiController.createSession);
 router.post('/add-user',userApiController.createUser);
 router.get('/user-profile',passport.authenticate('jwt',{session:false}),userApiController.userProfile);
+router.post('/update',passport.authenticate('jwt',{session:false}),userApiController.update);
 
 module.exports = router;

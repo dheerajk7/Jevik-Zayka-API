@@ -16,6 +16,7 @@ module.exports.home = async function(request, response)
     catch(err)
     {
         console.log('Error in getting Products');
+        console.log(err);
         return;
     }
     

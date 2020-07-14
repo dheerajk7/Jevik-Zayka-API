@@ -1,13 +1,14 @@
 const passport = require('passport');
 const User = require('../models/user');
-
+const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy({
-    usernameField:'email'
+    usernameField:'email',
     },
     function(email,password,done)
     {
+        console.log(email);
         User.findOne({email:email.toLowerCase()},function(err,user)
         {
             if(err)
@@ -16,13 +17,20 @@ passport.use(new LocalStrategy({
                 return done(err);
             }
 
-            if(!user || user.password != password)
+            if(!user)
             {
                 console.log('Invalid user name or password');
                 return done(null,false);
             }
-
-            return done(null,user);
+            bcrypt.compare(password,user.password,function(err,result)
+            {
+                if(result != true)
+                {
+                    console.log('Invalid user name or password');
+                    return done(null,false);
+                }
+                return done(null,user);
+            });
         });
     }
 

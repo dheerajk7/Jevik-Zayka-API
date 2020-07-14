@@ -42,7 +42,7 @@ app.use(session(
     {
         name:'jaivik-jaayaka',
         //todo change the secret before deployment in production
-        secret:'blahsomething',
+        secret:'kushwah-dheeraj',
         saveUninitialized:false,
         resave:false,
         cookie:

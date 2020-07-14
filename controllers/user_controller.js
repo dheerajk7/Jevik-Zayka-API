@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 module.exports.creatUser = async function(request,response)
 {
@@ -13,13 +14,14 @@ module.exports.creatUser = async function(request,response)
             return response.redirect('back');
         }
         let user = await User.findOne({email:requestEmail});
-        
         if(!user)
         {
+            let salt = 7;
+            let passwordHash = await bcrypt.hash(request.body.password,salt);
             user =await  User.create(
                 {
                     email:requestEmail,
-                    password:request.body.password,
+                    password:passwordHash,
                     name:request.body.name,
                     phone:request.body.phone,
                     isAdmin:false,
@@ -114,12 +116,6 @@ module.exports.update = async function(request,response)
     try
     {
         let user = await User.findByIdAndUpdate(request.user.id).populate();
-        let userExist = await User.findOne({email:request.user.email.toLowerCase()});
-        if(userExist && userExist.id != request.user.id)
-        {
-            console.log('Email Exist');
-            return response.redirect('back');
-        }
         User.uploadAvatar(request,response,function(err)
             {
                 if(err){console.log('Error in multer')};
