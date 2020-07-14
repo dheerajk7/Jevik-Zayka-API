@@ -1,5 +1,4 @@
 const User = require("../../../models/user");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 module.exports.createUser = async function (request, response) {
@@ -10,12 +9,18 @@ module.exports.createUser = async function (request, response) {
         message: "Password not matched",
       });
     }
-    let userByEmail = await User.findOne({ email: requestEmail });
-    let userByPhone = await User.findOne({ phone: request.body.phone });
-    if (!userByEmail && !userByPhone) {
+    let user = await User.findOne({
+      $or: [{ email: request.body.email }, { phone: request.body.phone }],
+    });
+
+    if (!user) {
+      let salt = 7;
+      //encrypting password
+      let passwordHash = await bcrypt.hash(request.body.password, salt);
+      //creating user
       user = await User.create({
         email: requestEmail,
-        password: request.body.password,
+        password: passwordHash,
         name: request.body.name,
         phone: request.body.phone,
         isAdmin: false,
@@ -30,6 +35,7 @@ module.exports.createUser = async function (request, response) {
       });
     }
   } catch (err) {
+    console.log(err);
     return response.status(500).json({
       message: "Internal Server Error",
     });
@@ -39,7 +45,6 @@ module.exports.createUser = async function (request, response) {
 module.exports.update = async function (request, response) {
   try {
     let user = await User.findByIdAndUpdate(request.user.id).populate();
-
     if (user && user.id == request.user.id) {
       let userExistByEmail = await User.findOne({
         email: request.body.email.toLowerCase(),
@@ -91,52 +96,18 @@ module.exports.update = async function (request, response) {
   }
 };
 
-module.exports.createSession = async function (request, response) {
-  try {
-    let user = await User.findOne({ email: request.body.email });
-    if (!user) {
-      return response.status(402).json({
-        success: false,
-        message: "Please Register Account not exist with these number",
-      });
-    }
-
-    //compairing encrypted password with the input password
-    bcrypt.compare(request.body.password, user.password, function (
-      err,
-      result
-    ) {
-      //if password doesn't matched
-      if (result != true) {
-        return response.status(402).json({
-          success: false,
-          message: "Invalid username or password",
-        });
-      }
-      //if password matched returning user and token
-      return response.status(200).json({
-        data: {
-          token: jwt.sign(user.toJSON(), "jaivik-jaayaka", {
-            expiresIn: 100000,
-          }),
-        },
-        message: "Sign In successful,here is your token, keep it safe",
-        success: true,
-      });
-    });
-  } catch (err) {
-    console.log("error", err);
-    return response.status(500).json({
-      message: "Internal Server Error",
-    });
-  }
-};
-
-module.exports.userProfile = function (request, response) {
+module.exports.profile = function (request, response) {
   return response.status(200).json({
     data: {
       user_profile: request.user.toObject(),
     },
     message: "User Profile sent",
+  });
+};
+
+module.exports.delete = function (request, response) {
+  return response.status(200).json({
+    success: true,
+    message: "Delete Profile Working",
   });
 };
