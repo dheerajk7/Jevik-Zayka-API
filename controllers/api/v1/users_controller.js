@@ -90,6 +90,7 @@ module.exports.update = async function (request, response) {
     }
   } catch (err) {
     console.log(err);
+    console.log(request);
     return response.status(500).json({
       message: "Internal Server Error",
     });

@@ -16,6 +16,10 @@ router.post(
   userController.update
 );
 
-router.delete("/delete", userController.delete);
+router.delete(
+  "/delete",
+  passport.authenticate("jwt", { session: false }),
+  userController.delete
+);
 
 module.exports = router;

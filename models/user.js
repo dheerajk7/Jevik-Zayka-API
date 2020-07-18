@@ -24,10 +24,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    isAdmin: {
+    is_admin: {
       type: Boolean,
       required: true,
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
     address: {
       type: String,
     },
@@ -64,7 +70,6 @@ if (!userSchema.options.toObject) userSchema.options.toObject = {};
 //customizing user's object
 userSchema.options.toObject.transform = function (doc, user, options) {
   delete user.password;
-  delete user.isAdmin;
   delete user.createdAt;
   delete user.updatedAt;
   delete user.__v;
