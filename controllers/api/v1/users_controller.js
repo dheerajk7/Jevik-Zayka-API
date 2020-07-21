@@ -23,7 +23,9 @@ module.exports.createUser = async function (request, response) {
         password: passwordHash,
         name: request.body.name,
         phone: request.body.phone,
-        isAdmin: false,
+        is_admin: false,
+        is_varified: false,
+        is_password_available: true,
       });
 
       return response.status(200).json({

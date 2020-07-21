@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    is_varified: {
+      type: Boolean,
+      required: true,
+    },
+    is_password_available: {
+      type: Boolean,
+      required: true,
+    },
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,

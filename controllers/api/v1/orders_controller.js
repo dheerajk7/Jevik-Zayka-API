@@ -35,10 +35,10 @@ module.exports.createOrder = async function (request, response) {
         }
       }
     }
-    // if (order) {
-    //   user.orders.push(order._id);
-    //   user.save();
-    // }
+    if (order) {
+      user.orders.push(order._id);
+      user.save();
+    }
     return response.status(200).json({
       data: {
         order_id: order.order_id,
@@ -78,10 +78,28 @@ module.exports.getAllOrder = async function (request, response) {
   }
 };
 
-module.exports.orderDetail = function (request, response) {
-  return response.status(200).json({
-    params: request.params,
-    success: true,
-    message: "Order Detail working",
-  });
+module.exports.orderDetail = async function (request, response) {
+  try {
+    let order = await Order.findOne({
+      order_id: request.params.order_id,
+    }).populate("user", "name email phone");
+    //if order id doesn't belongs to login user
+    if (!order || request.user.id !== order.user.id) {
+      return response.status(402).json({
+        success: false,
+        messsage: "Order not found",
+      });
+    }
+    return response.status(200).json({
+      order: order,
+      success: true,
+      message: "Order Detail working",
+    });
+  } catch (err) {
+    console.log(err);
+    return response.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
 };
