@@ -55,8 +55,28 @@ module.exports.createOrder = async function (request, response) {
   }
 };
 
-module.exports.deleteOrder = function (request, response) {
-  // let order = await Order.findById
+module.exports.deleteOrder = async function (request, response) {
+  let order = await Order.findOne({
+    order_id: request.params.order_id,
+  }).populate("user", "name email phone");
+  //if order is not created by logged in user or order is not available
+  if (!order || request.user.id !== order.user.id) {
+    return response.status(402).json({
+      success: false,
+      message: "Order not found",
+    });
+  }
+  if (order.order_status !== "Pending") {
+    return response.status(402).json({
+      success: false,
+      message: `Order cannot be deleted it's already ${order.order_status}...for further query contact to helpline number`,
+    });
+  }
+  await Order.findByIdAndDelete(order.id);
+  return response.status(200).json({
+    success: true,
+    message: "Order Deleted Successfully",
+  });
 };
 
 module.exports.getAllOrder = async function (request, response) {
@@ -83,7 +103,7 @@ module.exports.orderDetail = async function (request, response) {
     let order = await Order.findOne({
       order_id: request.params.order_id,
     }).populate("user", "name email phone");
-    //if order id doesn't belongs to login user
+    //if order id doesn't belongs to login user or order not exist
     if (!order || request.user.id !== order.user.id) {
       return response.status(402).json({
         success: false,
@@ -93,7 +113,7 @@ module.exports.orderDetail = async function (request, response) {
     return response.status(200).json({
       order: order,
       success: true,
-      message: "Order Detail working",
+      message: "Order Detail Received",
     });
   } catch (err) {
     console.log(err);

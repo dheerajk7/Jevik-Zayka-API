@@ -20,7 +20,7 @@ router.get(
   orderController.orderDetail
 );
 router.delete(
-  "/delete-order",
+  "/delete-order/:order_id",
   passport.authenticate("jwt", { session: false }),
   orderController.deleteOrder
 );
