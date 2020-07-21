@@ -61,9 +61,9 @@ module.exports.deleteOrder = function (request, response) {
 
 module.exports.getAllOrder = async function (request, response) {
   try {
-    let orders = await Order.find({ user: request.user._id }).sort(
-      "-createdAt"
-    );
+    let orders = await Order.find({ user: request.user._id })
+      .populate("user", "name phone email")
+      .sort("-createdAt");
     return response.status(200).json({
       data: orders,
       success: true,
