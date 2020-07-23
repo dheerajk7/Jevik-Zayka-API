@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    is_varified: {
+    is_verified: {
       type: Boolean,
       required: true,
     },

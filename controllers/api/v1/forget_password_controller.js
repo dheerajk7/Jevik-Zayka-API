@@ -58,8 +58,24 @@ module.exports.savePassword = async function (request, response) {
       access_token: request.params.access_token,
     });
     if (token) {
-      let user = User.findOneAndUpdate({ email: token.email });
+      let user = await User.findOneAndUpdate(
+        { email: token.email },
+        { useFindAndModify: false }
+      );
+      // console.log(user);
       if (user) {
+        let salt = 7;
+        //encrypting password
+        let passwordHash = await bcrypt.hash(request.body.password, salt);
+        console.log("passwrod", user.password);
+        user.password = passwordHash;
+        user.is_password_available = true;
+        await user.save();
+        await ForgetPasswordToken.findByIdAndDelete(token.id);
+        return response.status(200).json({
+          success: true,
+          message: "Password Changed Successfully",
+        });
       }
       return response.status(401).json({
         success: false,
