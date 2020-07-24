@@ -26,14 +26,7 @@ module.exports.resetMail = async function (request, response) {
         access_token: Date.now(),
       });
     }
-
-    queue.create("forgetPasswordEmails", token).save(function (err) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    });
-
+    queue.create("forgetPasswordEmails", token).save();
     return response.status(200).json({
       success: true,
       message: "Reset password mail sent to the registered mail",

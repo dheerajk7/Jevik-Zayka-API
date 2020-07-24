@@ -1,9 +1,31 @@
 const VerificationEmailToken = require("../../../models/verification-email-token");
+const User = require("../../../models/user");
+const queue = require("../../../config/kue");
+const verificationEmailMailerWorker = require("../../../workers/verify-email");
 
 module.exports.sendMail = async function (request, response) {
   try {
+    if (request.user.is_verified === true) {
+      return response.status(200).json({
+        success: true,
+        message: "Email Already Verified",
+      });
+    }
+    let token = await VerificationEmailToken.findOne({
+      user: request.user.id,
+    }).populate("user", "name email");
+    if (!token) {
+      token = await VerificationEmailToken.create({
+        user: request.user.id,
+        access_token: Date.now(),
+      });
+      await VerificationEmailToken.populate(token, {
+        path: "user",
+        select: "name email",
+      });
+    }
+    queue.create("verifyEmail", token).save();
     return response.status(200).json({
-      user: request.user.toObject(),
       success: true,
       message: "Verification Mail Sent Successfully",
     });
@@ -18,11 +40,24 @@ module.exports.sendMail = async function (request, response) {
 
 module.exports.verify = async function (request, response) {
   try {
-    return response.status(200).json({
-      user: request.user.toObject(),
-      params: request.params,
-      success: true,
-      message: "Verify is working",
+    let token = await VerificationEmailToken.findOne({
+      access_token: request.params.verification_token,
+    });
+    if (token) {
+      let user = await User.findByIdAndUpdate(token.user);
+      if (user) {
+        user.is_verified = true;
+        user.save();
+        await VerificationEmailToken.findByIdAndDelete(token.id);
+        return response.status(200).json({
+          success: true,
+          message: "Email Verified Successfully",
+        });
+      }
+    }
+    return response.status(401).json({
+      success: false,
+      message: "Link Expired",
     });
   } catch (err) {
     console.log(err);

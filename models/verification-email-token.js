@@ -4,7 +4,8 @@ const verificationEmailTokenSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: "User",
+      ref: "User",
+      required: true,
     },
     access_token: {
       type: String,
