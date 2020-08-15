@@ -33,6 +33,9 @@ const passport = require('passport');
 const passportJWT = require('./config/passport-jwt-strategy');
 
 let client = redis.createClient(env.redisURL);
+client.on('connect', function () {
+  console.log('redis connected');
+});
 
 app.use(passport.initialize());
 //using router
@@ -44,5 +47,6 @@ app.listen(port, function (err) {
     return;
   }
   console.log('Server is running and up at port ', port);
+  console.log(process.env.REDIS_URL, 'rere redis');
   return;
 });
