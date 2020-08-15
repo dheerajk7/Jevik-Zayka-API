@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../../models/user");
+const env = require("../../../config/environment");
 module.exports.createSession = async function (request, response) {
   try {
     //finding user with phone number or email
@@ -29,7 +30,7 @@ module.exports.createSession = async function (request, response) {
       //if password matched returning user and token
       return response.status(200).json({
         data: {
-          token: jwt.sign(user.toObject(), "jaivik-jaayaka", {
+          token: jwt.sign(user.toObject(), env.jwt_secret, {
             expiresIn: 100000,
           }),
         },
