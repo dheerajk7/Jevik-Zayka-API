@@ -32,8 +32,8 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 const passport = require('passport');
 const passportJWT = require('./config/passport-jwt-strategy');
 
-let client = require('redis').createClient(process.env.REDIS_URL);
-let redis = new Redis(process.env.REDIS_URL);
+let client = require('redis').createClient(env.redisURL);
+let redis = new Redis(env.redisURL);
 
 app.use(passport.initialize());
 //using router
