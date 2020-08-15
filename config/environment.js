@@ -29,6 +29,11 @@ const development = {
     mode: 'dev',
     options: { stream: accessLogStream },
   },
+  mongoAtlas: {
+    user: 'jevik-zayka-user',
+    password: '7253@Dheeraj',
+  },
+  redisURL: 'localhost',
 };
 
 const production = {
@@ -49,6 +54,11 @@ const production = {
     mode: 'combined',
     options: { stream: accessLogStream },
   },
+  mongoAtlas: {
+    user: process.env.JAIVIK_MONGO_USERID,
+    password: process.env.JAIVIK_MONGO_PASSWORD,
+  },
+  redisURL: process.env.REDIS_URL,
 };
 
 module.exports =

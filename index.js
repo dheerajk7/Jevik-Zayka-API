@@ -8,6 +8,7 @@ const multer = require('multer');
 const upload = multer();
 const logger = require('morgan');
 const env = require('./config/environment');
+const redis = require('redis');
 
 app.use(
   bodyParser.urlencoded({
@@ -30,6 +31,8 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 //used for session cookie
 const passport = require('passport');
 const passportJWT = require('./config/passport-jwt-strategy');
+
+let client = redis.createClient(env.redisURL);
 
 app.use(passport.initialize());
 //using router
