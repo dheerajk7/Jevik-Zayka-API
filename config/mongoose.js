@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const env = require('../config/environment');
 
 mongoose.connect(
-  process.env.MONGODBURI ||
-    `mongodb+srv://jevik-zayka-user:7253@Dheeraj@cluster0.cmbhb.mongodb.net/<dbname>?retryWrites=true&w=majority`,
+  `mongodb+srv://jevik-zayka-user:7253@Dheeraj@cluster0.cmbhb.mongodb.net/<dbname>?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

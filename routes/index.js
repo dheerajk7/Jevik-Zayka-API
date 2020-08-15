@@ -4,9 +4,7 @@ const router = express.Router();
 //routes
 router.use('/api', require('./api/index'));
 router.get('/', function (req, res) {
-  return res.status(200).json({
-    message: 'Working',
-  });
+  return res.render('index.ejs');
 });
 
 module.exports = router;

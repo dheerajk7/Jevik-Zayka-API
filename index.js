@@ -35,6 +35,7 @@ const passportJWT = require('./config/passport-jwt-strategy');
 let client = require('redis').createClient(env.redisURL);
 let redis = new Redis(env.redisURL);
 
+app.use(express.static('./static'));
 app.use(passport.initialize());
 //using router
 app.use('/', require('./routes/index.js'));
