@@ -8,7 +8,7 @@ const multer = require('multer');
 const upload = multer();
 const logger = require('morgan');
 const env = require('./config/environment');
-const redis = require('redis');
+const Redis = require('ioredis');
 
 app.use(
   bodyParser.urlencoded({
@@ -32,10 +32,12 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 const passport = require('passport');
 const passportJWT = require('./config/passport-jwt-strategy');
 
-let client = redis.createClient(env.redisURL);
+let client = require('redis').createClient(env.redisURL);
 client.on('connect', function () {
   console.log('redis connected');
 });
+
+let redis = new Redis(process.env.redisURL);
 
 app.use(passport.initialize());
 //using router
