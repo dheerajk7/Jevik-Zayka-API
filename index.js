@@ -37,7 +37,7 @@ client.on('connect', function () {
   console.log('redis connected');
 });
 
-let redis = new Redis(process.env.redisURL);
+let redis = new Redis(env.redisURL);
 
 app.use(passport.initialize());
 //using router
