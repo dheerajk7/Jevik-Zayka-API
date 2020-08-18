@@ -59,7 +59,7 @@ const production = {
     user: process.env.JAIVIK_MONGO_USERID,
     password: process.env.JAIVIK_MONGO_PASSWORD,
   },
-  redisURL: process.env.REDISTOGO_URL,
+  redisURL: process.env.REDIS_URL,
 };
 
 module.exports =
