@@ -63,4 +63,6 @@ const production = {
 };
 
 module.exports =
-  eval(process.env.JAIVIK_ENVIRONMENT) == undefined ? development : development;
+  eval(process.env.JAIVIK_ENVIRONMENT) == undefined
+    ? development
+    : eval(process.env.JAIVIK_ENVIRONMENT);
