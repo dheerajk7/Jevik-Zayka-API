@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const env = require('../config/environment');
 
-mongoose.connect(`'mongodb://localhost/jaivik_development'`, {
+mongoose.connect(env.mongoPath, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

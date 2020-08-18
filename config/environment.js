@@ -5,7 +5,6 @@ const path = require('path');
 const logDirectory = path.join(__dirname, '../production_log');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
-console.log(rfs);
 const accessLogStream = rfs('access.log', {
   interval: '1d',
   path: logDirectory,
@@ -33,6 +32,7 @@ const development = {
     user: 'jevik-zayka-user',
     password: '7253@Dheeraj',
   },
+  mongoPath: 'mongodb://localhost/jaivik_development',
   redisURL:
     'redis://h:p7351bb546d4ea0146ca0797794bbd553c0e9d603499044b3c871105b0ac62229@ec2-54-80-170-250.compute-1.amazonaws.com:23779',
 };
@@ -59,6 +59,7 @@ const production = {
     user: process.env.JAIVIK_MONGO_USERID,
     password: process.env.JAIVIK_MONGO_PASSWORD,
   },
+  mongopPath: `mongodb+srv://${JAIVIK_MONGO_USERID}:${JAIVIK_MONGO_PASSWORD}@cluster0.cmbhb.mongodb.net/${JAIVIK_DB_NAME}?retryWrites=true&w=majority`,
   redisURL: process.env.REDIS_URL,
 };
 
