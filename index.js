@@ -9,6 +9,7 @@ const upload = multer();
 const logger = require('morgan');
 const env = require('./config/environment');
 const Redis = require('ioredis');
+const cors = require('cors');
 
 app.use(
   bodyParser.urlencoded({
@@ -18,7 +19,7 @@ app.use(
 
 // console.log(env.morgan.mode, env.morgan.options);
 app.use(logger(env.morgan.mode, env.morgan.options));
-
+app.use(cors);
 app.use(bodyParser.json());
 // app.use(upload.array("kk"));
 // app.use(express.urlencoded());
