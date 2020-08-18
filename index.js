@@ -19,7 +19,7 @@ app.use(
 
 // console.log(env.morgan.mode, env.morgan.options);
 app.use(logger(env.morgan.mode, env.morgan.options));
-app.use(cors);
+app.use(cors());
 app.use(bodyParser.json());
 // app.use(upload.array("kk"));
 // app.use(express.urlencoded());
@@ -33,8 +33,12 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 const passport = require('passport');
 const passportJWT = require('./config/passport-jwt-strategy');
 
-let client = require('redis').createClient(env.redisURL);
-let redis = new Redis(env.redisURL);
+let client = null;
+let redis = null;
+if (env.name === 'production') {
+  client = require('redis').createClient(env.redisURL);
+  redis = new Redis(env.redisURL);
+}
 
 app.use(express.static('./static'));
 app.use(passport.initialize());

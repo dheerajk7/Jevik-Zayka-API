@@ -43,3 +43,18 @@
 ::1 - - [15/Aug/2020:08:58:25 +0000] "GET /img.jpeg HTTP/1.1" 304 - "http://localhost:8000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Mobile Safari/537.36"
 ::1 - - [15/Aug/2020:08:59:08 +0000] "GET / HTTP/1.1" 200 1504 "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Mobile Safari/537.36"
 ::1 - - [15/Aug/2020:08:59:08 +0000] "GET /img.jpeg HTTP/1.1" 304 - "http://localhost:8000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Mobile Safari/537.36"
+::1 - - [18/Aug/2020:12:55:08 +0000] "GET / HTTP/1.1" - - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+::1 - - [18/Aug/2020:12:56:10 +0000] "GET / HTTP/1.1" - - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+::1 - - [18/Aug/2020:12:56:12 +0000] "GET /home HTTP/1.1" - - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+[0mGET / [32m200[0m 8.117 ms - 1502[0m
+[0mGET /img.jpeg [32m200[0m 2.485 ms - 52353[0m
+[0mGET /favicon.ico [33m404[0m 1.040 ms - 150[0m
+[0mGET / [36m304[0m 5.721 ms - -[0m
+[0mGET /img.jpeg [36m304[0m 1.468 ms - -[0m
+[0mGET / [36m304[0m 1.225 ms - -[0m
+[0mGET /img.jpeg [36m304[0m 0.510 ms - -[0m
+[0mGET / [36m304[0m 0.815 ms - -[0m
+[0mGET /img.jpeg [36m304[0m 0.889 ms - -[0m
+[0mGET / [36m304[0m 0.838 ms - -[0m
+[0mGET /img.jpeg [36m304[0m 0.471 ms - -[0m
+[0mDELETE /api/v1/orders/delete-order/1595069796475 [33m401[0m 3.415 ms - -[0m

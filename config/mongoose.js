@@ -2,13 +2,10 @@
 const mongoose = require('mongoose');
 const env = require('../config/environment');
 
-mongoose.connect(
-  `mongodb+srv://jevik-zayka-user:7253@Dheeraj@cluster0.cmbhb.mongodb.net/<dbname>?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(`'mongodb://localhost/jaivik_development'`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 
