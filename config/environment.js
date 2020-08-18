@@ -59,7 +59,7 @@ const production = {
     user: process.env.JAIVIK_MONGO_USERID,
     password: process.env.JAIVIK_MONGO_PASSWORD,
   },
-  mongopPath: `mongodb+srv://${JAIVIK_MONGO_USERID}:${JAIVIK_MONGO_PASSWORD}@cluster0.cmbhb.mongodb.net/${JAIVIK_DB_NAME}?retryWrites=true&w=majority`,
+  mongopPath: `mongodb+srv://${process.env.JAIVIK_MONGO_USERID}:${process.env.JAIVIK_MONGO_PASSWORD}@cluster0.cmbhb.mongodb.net/${process.env.JAIVIK_DB_NAME}?retryWrites=true&w=majority`,
   redisURL: process.env.REDIS_URL,
 };
 
