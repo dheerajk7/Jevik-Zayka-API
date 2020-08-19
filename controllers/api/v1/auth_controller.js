@@ -5,8 +5,9 @@ const env = require('../../../config/environment');
 module.exports.createSession = async function (request, response) {
   try {
     //finding user with phone number or email
+    let username = request.body.username.toLowerCase();
     let user = await User.findOne({
-      $or: [{ email: request.body.username }, { phone: request.body.username }],
+      $or: [{ email: username }, { mobile_number: username }],
     });
     if (!user) {
       return response.status(401).json({
