@@ -19,7 +19,7 @@ const development = {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'dheeraj77253@gmail.com', // generated ethereal user
+      user: 'dhiru.3715@gmail.com', // generated ethereal user
       pass: '7253@Dheeraj', // generated ethereal password
     },
   },
@@ -38,7 +38,7 @@ const development = {
 };
 
 const production = {
-  name: 'production',
+  name: process.env.JAIVIK_ENVIRONMENT,
   db: 'jaivik_jaayaka_production',
   smtp: {
     service: 'gmail',
@@ -63,7 +63,9 @@ const production = {
   redisURL: process.env.REDIS_URL,
 };
 
-module.exports =
-  eval(process.env.JAIVIK_ENVIRONMENT) == undefined
-    ? development
-    : eval(process.env.JAIVIK_ENVIRONMENT);
+// module.exports =
+//   eval(process.env.JAIVIK_ENVIRONMENT) == undefined
+//     ? development
+//     : eval(process.env.JAIVIK_ENVIRONMENT);
+
+module.exports = development;

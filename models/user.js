@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const multer = require("multer");
-const path = require("path");
-const AVATAR_PATH = path.join("/uploads/users/avatars");
+const mongoose = require('mongoose');
+const multer = require('multer');
+const path = require('path');
+const AVATAR_PATH = path.join('/uploads/users/avatars');
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,11 +15,15 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: false,
     },
-    name: {
+    first_name: {
       type: String,
       required: true,
     },
-    phone: {
+    last_name: {
+      type: String,
+      required: true,
+    },
+    mobile_number: {
       type: String,
       required: true,
       unique: true,
@@ -39,7 +43,7 @@ const userSchema = new mongoose.Schema(
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
+        ref: 'Order',
       },
     ],
     address: {
@@ -62,15 +66,15 @@ const userSchema = new mongoose.Schema(
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "..", AVATAR_PATH));
+    cb(null, path.join(__dirname, '..', AVATAR_PATH));
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(null, file.fieldname + '-' + Date.now());
   },
 });
 
 //static methods
-userSchema.statics.uploadAvatar = multer({ storage: storage }).single("avatar");
+userSchema.statics.uploadAvatar = multer({ storage: storage }).single('avatar');
 userSchema.statics.avatarPath = AVATAR_PATH;
 
 if (!userSchema.options.toObject) userSchema.options.toObject = {};
@@ -84,5 +88,5 @@ userSchema.options.toObject.transform = function (doc, user, options) {
   return user;
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = User;

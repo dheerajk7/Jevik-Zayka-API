@@ -1,7 +1,7 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../../../models/user");
-const env = require("../../../config/environment");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../../../models/user');
+const env = require('../../../config/environment');
 module.exports.createSession = async function (request, response) {
   try {
     //finding user with phone number or email
@@ -9,9 +9,9 @@ module.exports.createSession = async function (request, response) {
       $or: [{ email: request.body.username }, { phone: request.body.username }],
     });
     if (!user) {
-      return response.status(402).json({
+      return response.status(401).json({
         success: false,
-        message: "Please Register Account not exist with these number",
+        message: 'Invalid Credentials...Register if not registered yet',
       });
     }
 
@@ -22,26 +22,27 @@ module.exports.createSession = async function (request, response) {
     ) {
       //if password doesn't matched
       if (result != true) {
-        return response.status(402).json({
+        return response.status(401).json({
           success: false,
-          message: "Invalid username or password",
+          message: 'Invalid username or password',
         });
       }
       //if password matched returning user and token
       return response.status(200).json({
         data: {
+          user: user.toObject(),
           token: jwt.sign(user.toObject(), env.jwt_secret, {
             expiresIn: 100000,
           }),
         },
-        message: "Sign In successful,here is your token, keep it safe",
+        message: 'Sign In successful,here is your token, keep it safe',
         success: true,
       });
     });
   } catch (err) {
-    console.log("error", err);
+    console.log('error', err);
     return response.status(500).json({
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
