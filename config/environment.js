@@ -63,9 +63,9 @@ const production = {
   redisURL: process.env.REDIS_URL,
 };
 
-// module.exports =
-//   eval(process.env.JAIVIK_ENVIRONMENT) == undefined
-//     ? development
-//     : eval(process.env.JAIVIK_ENVIRONMENT);
+module.exports =
+  eval(process.env.JAIVIK_ENVIRONMENT) == undefined
+    ? development
+    : eval(process.env.JAIVIK_ENVIRONMENT);
 
-module.exports = development;
+// module.exports = development;
