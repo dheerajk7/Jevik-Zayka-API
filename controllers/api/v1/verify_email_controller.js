@@ -49,8 +49,6 @@ module.exports.verify = async function (request, response) {
         user.is_verified = true;
         user.save();
         await VerificationEmailToken.findByIdAndDelete(token.id);
-        console.log('a');
-        return response.redirect('https://google.com');
         return response.status(200).json({
           success: true,
           message: 'Email Verified Successfully',

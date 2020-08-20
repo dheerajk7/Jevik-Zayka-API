@@ -31,7 +31,6 @@ module.exports.createSession = async function (request, response) {
       //if password matched returning user and token
       return response.status(200).json({
         data: {
-          user: user.toObject(),
           token: jwt.sign(user.toObject(), env.jwt_secret, {
             expiresIn: 100000,
           }),

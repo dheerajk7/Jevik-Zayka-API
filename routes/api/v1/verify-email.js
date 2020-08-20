@@ -1,18 +1,14 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const passport = require("passport");
+const passport = require('passport');
 
-const verifyEmailController = require("../../../controllers/api/v1/verify_email_controller");
+const verifyEmailController = require('../../../controllers/api/v1/verify_email_controller');
 
 router.get(
-  "/send-mail",
-  passport.authenticate("jwt", { session: false }),
+  '/send-mail',
+  passport.authenticate('jwt', { session: false }),
   verifyEmailController.sendMail
 );
-router.get(
-  "/verify/:verification_token",
-  passport.authenticate("jwt", { session: false }),
-  verifyEmailController.verify
-);
+router.get('/verify/:verification_token', verifyEmailController.verify);
 
 module.exports = router;
