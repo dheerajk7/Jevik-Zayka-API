@@ -21,6 +21,8 @@ app.use(
 app.use(logger(env.morgan.mode, env.morgan.options));
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.text());
+app.use(bodyParser.raw());
 // app.use(upload.array("kk"));
 // app.use(express.urlencoded());
 

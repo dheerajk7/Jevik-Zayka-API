@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const multer = require("multer");
-const path = require("path");
-const PRODUCT_PATH = path.join("/uploads/products/product_image");
+const mongoose = require('mongoose');
+const multer = require('multer');
+const path = require('path');
+const PRODUCT_PATH = path.join('/uploads/products/product_image');
 
 const productSchema = new mongoose.Schema(
   {
@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -52,16 +52,16 @@ const productSchema = new mongoose.Schema(
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "..", PRODUCT_PATH));
+    cb(null, path.join(__dirname, '..', PRODUCT_PATH));
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(null, file.fieldname + '-' + Date.now());
   },
 });
 
 //static methods
 productSchema.statics.uploadProductImage = multer({ storage: storage }).single(
-  "product_image"
+  'product_image'
 );
 productSchema.statics.productPath = PRODUCT_PATH;
 
@@ -76,5 +76,5 @@ productSchema.options.toObject.transform = function (doc, product, options) {
   return product;
 };
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

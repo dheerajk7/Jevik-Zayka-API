@@ -33,7 +33,6 @@ module.exports.resetMail = async function (request, response) {
       message: 'Reset password mail sent to the registered mail',
     });
   } catch (err) {
-    console.log(err);
     return response.status(500).json({
       success: false,
       messsage: 'Internal Server Error',

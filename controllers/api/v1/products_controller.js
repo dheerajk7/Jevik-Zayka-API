@@ -1,11 +1,12 @@
-const Product = require("../../../models/product");
+const Product = require('../../../models/product');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
+const productImagePath = Product.productPath;
 
 module.exports.getProducts = async function (request, response) {
   try {
-    let fruits = await Product.find({ category: "Fruit" });
-    console.log(fruits);
-    let vegetables = await Product.find({ category: "Vegetable" });
-    console.log(vegetables);
+    let fruits = await Product.find();
+    let vegetables = await Product.find({ category: 'Vegetable' });
     let finalVegetable = vegetables.map((vegetable) => vegetable.toObject());
     let finalFruits = fruits.map((fruit) => fruit.toObject());
     return response.status(200).json({
@@ -13,18 +14,18 @@ module.exports.getProducts = async function (request, response) {
         fruits: finalFruits,
         vegetables: finalVegetable,
       },
-      message: "Product Fetched Successfully",
+      message: 'Product Fetched Successfully',
     });
   } catch (err) {
     return response.status(500).json({
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
 
 module.exports.addProduct = async function (request, response) {
   try {
-    let sold_by = "";
+    let sold_by = '';
     if (request.body.sold_by) {
       sold_by = request.body.sold_by;
     }
@@ -38,9 +39,10 @@ module.exports.addProduct = async function (request, response) {
     ) {
       return response.status(402).json({
         success: false,
-        message: "Please fill all necessary credentials",
+        message: 'Please fill all necessary credentials',
       });
     }
+
     let product = await Product.create({
       product_name: request.body.product_name,
       category: request.body.category,
@@ -51,22 +53,23 @@ module.exports.addProduct = async function (request, response) {
       is_hidden: false,
       is_deletable: true,
       user: request.user.id,
+      product_image: productImagePath + '/' + request.file.filename,
     });
     if (product) {
       return response.status(200).json({
         success: true,
-        message: "Product added successfully",
+        message: 'Product added successfully',
       });
     }
     return response.status(402).json({
       success: false,
-      message: "Invalid Product Credential please fill them carefully",
+      message: 'Invalid Product Credential please fill them carefully',
     });
   } catch (err) {
-    console.log("err", err);
+    console.log('err', err);
     return response.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -77,19 +80,19 @@ module.exports.deleteProduct = async function (request, response) {
     if (!product.is_deletable) {
       return response.status(402).json({
         success: false,
-        message: "Product cannot be deleted",
+        message: 'Product cannot be deleted',
       });
     }
     await Product.deleteOne({ _id: product._id });
     return response.status(200).json({
       success: true,
-      message: "Product deleted successfully",
+      message: 'Product deleted successfully',
     });
   } catch (err) {
-    console.log("error h", err);
+    console.log('error h', err);
     return response.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -100,21 +103,21 @@ module.exports.productDetail = async function (request, response) {
     if (!product) {
       return response.status(402).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
     return response.status(200).json({
       data: {
         product: product.toObject(),
         success: true,
-        message: "Product Received",
+        message: 'Product Received',
       },
     });
   } catch (err) {
     console.log(err);
     return response.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
