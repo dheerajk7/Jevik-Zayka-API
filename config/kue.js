@@ -1,5 +1,5 @@
 const kue = require('kue');
-const env = require('../environment');
+const env = require('./environment');
 let queue = null;
 //creating queue for delayed jobs
 if (env.name === 'development') {
