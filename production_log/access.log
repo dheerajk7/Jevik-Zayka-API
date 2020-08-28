@@ -289,3 +289,10 @@
 [0mPOST /api/v1/products/add-product [32m200[0m 39.989 ms - 55[0m
 [0mGET /api/v1/products/get-products [32m200[0m 7.912 ms - 1417[0m
 [0mGET /uploads/products/product_image/product_image-1598458212116 [32m200[0m 1.902 ms - 109959[0m
+[0mPOST /api/v1/auth/create-session [33m401[0m 26.169 ms - 58[0m
+[0mPOST /api/v1/auth/create-session [32m200[0m 15.425 ms - 517[0m
+[0mPOST /api/v1/auth/create-session [33m401[0m 10.107 ms - 58[0m
+[0mPOST /api/v1/auth/create-session [33m401[0m 18.439 ms - 58[0m
+[0mPOST /api/v1/auth/create-session [33m401[0m 23.767 ms - 58[0m
+[0mPOST /api/v1/auth/create-session [32m200[0m 25.451 ms - 517[0m
+[0mPOST /api/v1/auth/create-session [32m200[0m 27.486 ms - 516[0m
