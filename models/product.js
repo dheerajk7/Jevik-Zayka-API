@@ -5,7 +5,7 @@ const PRODUCT_PATH = path.join('/uploads/products/product_image');
 
 const productSchema = new mongoose.Schema(
   {
-    product_name: {
+    title: {
       type: String,
       required: true,
     },

@@ -31,7 +31,7 @@ module.exports.addProduct = async function (request, response) {
     }
     //checking for empty creadentials
     if (
-      request.body.product_name === undefined ||
+      request.body.title === undefined ||
       request.body.category === undefined ||
       request.body.marked_price === undefined ||
       request.body.selling_price === undefined ||
@@ -44,7 +44,7 @@ module.exports.addProduct = async function (request, response) {
     }
 
     let product = await Product.create({
-      product_name: request.body.product_name,
+      title: request.body.title,
       category: request.body.category,
       marked_price: Number(request.body.marked_price),
       selling_price: Number(request.body.selling_price),
