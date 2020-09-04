@@ -2,6 +2,15 @@ const Product = require('../../../models/product');
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 const productImagePath = Product.productPath;
+const env = require('../../../config/environment');
+const AWS = require('aws-sdk');
+const fs = require('fs');
+
+// creating S3 Object here
+const s3 = new AWS.S3({
+  accessKeyId: env.aws.AWS_ID,
+  secretAccessKey: env.aws.AWS_SECRET,
+});
 
 module.exports.getProducts = async function (request, response) {
   try {
@@ -25,46 +34,71 @@ module.exports.getProducts = async function (request, response) {
 
 module.exports.addProduct = async function (request, response) {
   try {
-    let sold_by = '';
-    if (request.body.sold_by) {
-      sold_by = request.body.sold_by;
-    }
-    //checking for empty creadentials
-    if (
-      request.body.title === undefined ||
-      request.body.category === undefined ||
-      request.body.marked_price === undefined ||
-      request.body.selling_price === undefined ||
-      request.body.stock_quantity === undefined
-    ) {
-      return response.status(402).json({
-        success: false,
-        message: 'Please fill all necessary credentials',
-      });
-    }
+    // creating buffer for file
+    const fileContent = fs.readFileSync(request.file.filename);
+    console.log(request.file, fileContent);
+    console.log(request.body);
+    let params = {
+      Bucket: env.aws.AWS_BUCKET_NAME,
+      Key: request.file.filename,
+      Body: fileContent,
+    };
+    let image = s3.upload(params, (error, data) => {
+      if (error) {
+        console.log('error');
+        return response.status(401).json({
+          success: false,
+          message: 'Error in uploading file to server',
+        });
+      }
+      console.log('data', data);
+      return response
+        .status(200)
+        .json({ success: true, message: 'File Uplaoded successfully' });
+    });
+    // console.log('ww');
+    // console.log(image);
+    //   let sold_by = '';
+    //   if (request.body.sold_by) {
+    //     sold_by = request.body.sold_by;
+    //   }
+    //   //checking for empty creadentials
+    //   if (
+    //     request.body.title === undefined ||
+    //     request.body.category === undefined ||
+    //     request.body.marked_price === undefined ||
+    //     request.body.selling_price === undefined ||
+    //     request.body.stock_quantity === undefined
+    //   ) {
+    //     return response.status(402).json({
+    //       success: false,
+    //       message: 'Please fill all necessary credentials',
+    //     });
+    //   }
+    //   console.log('path', productImagePath + '/' + request.file.filename);
 
-    let product = await Product.create({
-      title: request.body.title,
-      category: request.body.category,
-      marked_price: Number(request.body.marked_price),
-      selling_price: Number(request.body.selling_price),
-      sold_by: sold_by,
-      stock_quantity: Number(request.body.stock_quantity),
-      is_hidden: false,
-      is_deletable: true,
-      user: request.user.id,
-      product_image: productImagePath + '/' + request.file.filename,
-    });
-    if (product) {
-      return response.status(200).json({
-        success: true,
-        message: 'Product added successfully',
-      });
-    }
-    return response.status(402).json({
-      success: false,
-      message: 'Invalid Product Credential please fill them carefully',
-    });
+    //   let product = await Product.create({
+    //     title: request.body.title,
+    //     category: request.body.category,
+    //     marked_price: Number(request.body.marked_price),
+    //     selling_price: Number(request.body.selling_price),
+    //     sold_by: sold_by,
+    //     stock_quantity: Number(request.body.stock_quantity),
+    //     is_hidden: false,
+    //     is_deletable: true,
+    //     user: request.user.id,
+    //     product_image: productImagePath + '/' + request.file.filename,
+    //   });
+    //   if (product) {
+    //     return response.status(200).json({
+    //       success: true,
+    //       message: 'Product added successfully',
+    //     });
+    //   }
+    //   return response.status(402).json({
+    //     success: false,
+    //     message: 'Invalid Product Credential please fill them carefully',
+    //   });
   } catch (err) {
     console.log('err', err);
     return response.status(500).json({

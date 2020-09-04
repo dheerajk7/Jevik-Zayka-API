@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '..', PRODUCT_PATH));
+    cb(null, '');
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now());
