@@ -50,21 +50,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now());
-  },
-});
-
-//static methods
-productSchema.statics.uploadProductImage = multer({ storage: storage }).single(
-  'product_image'
-);
-productSchema.statics.productPath = PRODUCT_PATH;
-
 if (!productSchema.options.toObject) productSchema.options.toObject = {};
 
 //customizing user's object
