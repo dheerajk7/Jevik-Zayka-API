@@ -132,9 +132,9 @@ module.exports.productDetail = async function (request, response) {
     return response.status(200).json({
       data: {
         product: product.toObject(),
-        success: true,
-        message: 'Product Received',
       },
+      success: true,
+      message: 'Product Received',
     });
   } catch (err) {
     console.log(err);
